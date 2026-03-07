@@ -122,7 +122,7 @@ export default function Dashboard() {
 
       <h3>📊 Sales Chart</h3>
 
-      <BarChart width={500} height={300} data={sortedData}>
+      <BarChart className="chart" width={500} height={300} data={sortedData}>
         <XAxis dataKey="name" />
         <YAxis />
         <Tooltip />
@@ -133,7 +133,7 @@ export default function Dashboard() {
 
       <h3>🥧 Revenue Distribution</h3>
 
-      <PieChart width={500} height={350}>
+      <PieChart className="chart" width={500} height={350}>
         <Pie
           data={sortedData}
           dataKey="revenue"

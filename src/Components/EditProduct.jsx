@@ -39,9 +39,6 @@ function EditProduct() {
       <label>Product Name</label>
       <input value={product.name} disabled />
 
-      <label>Category</label>
-      <input value={product.category} disabled />
-
       <label>Price</label>
       <input value={product.price}/>
 

@@ -1,43 +1,38 @@
-import { Routes, Route } from "react-router-dom";
+import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
+
+import Sidebar from "./Components/SideBar";
+import LandingPage from "./Components/LandingPage";
+import ViewProducts from "./Components/ViewProducts";
 import AddProduct from "./Components/AddProduct";
+import EditProduct from "./Components/EditProduct";
 import AddSale from "./Components/AddSale";
 import Dashboard from "./Components/Dashboard";
-import EditProduct from "./Components/EditProduct";
-import ViewProducts from "./Components/ViewProducts";
-import Sidebar from "./Components/SideBar";
-import Login from "./Components/Login";
 
 function App() {
+
+  const location = useLocation();
+
+  const hideSidebar = location.pathname === "/";
+
   return (
-    <Routes>
+    <div className="layout">
 
-      {/* Login Page (No Sidebar) */}
-      <Route path="/login" element={<Login />} />
+      {!hideSidebar && <Sidebar />}
 
-      {/* Pages with Sidebar */}
-      <Route
-        path="/*"
-        element={
-          <div className="layout">
+      <div className={hideSidebar ? "landing-main" : "main-content"}>
 
-            <Sidebar />
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/products" element={<ViewProducts />} />
+          <Route path="/add" element={<AddProduct />} />
+          <Route path="/edit/:id" element={<EditProduct />} />
+          <Route path="/addsale" element={<AddSale />} />
+          <Route path="/dashboard" element={<Dashboard />} />
+        </Routes>
 
-            <div className="main-content">
-              <Routes>
-                <Route path="/" element={<ViewProducts />} />
-                <Route path="/add" element={<AddProduct />} />
-                <Route path="/edit/:id" element={<EditProduct />} />
-                <Route path="/addsale" element={<AddSale />} />
-                <Route path="/dashboard" element={<Dashboard />} />
-              </Routes>
-            </div>
-
-          </div>
-        }
-      />
-
-    </Routes>
+      </div>
+    </div>
   );
 }
 

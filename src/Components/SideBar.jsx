@@ -1,4 +1,3 @@
-import React from "react";
 import { Link, useLocation } from "react-router-dom";
 
 function Sidebar() {
@@ -8,32 +7,35 @@ function Sidebar() {
   return (
     <div className="sidebar">
 
-      <h2 className="logo">Smart Inventory</h2>
+      {/* Logo clickable */}
+      <Link to="/" className="logo-link">
+        <h2 className="logo">Smart Inventory</h2>
+      </Link>
 
       <div className="nav-links">
 
-        <Link
-          className={location.pathname === "/" ? "active" : ""}
-          to="/"
+        <Link 
+          className={location.pathname === "/products" ? "active" : ""}
+          to="/products"
         >
           Products
         </Link>
 
-        <Link
+        <Link 
           className={location.pathname === "/add" ? "active" : ""}
           to="/add"
         >
           Add Product
         </Link>
 
-        <Link
+        <Link 
           className={location.pathname === "/addsale" ? "active" : ""}
           to="/addsale"
         >
           Add Sale
         </Link>
 
-        <Link
+        <Link 
           className={location.pathname === "/dashboard" ? "active" : ""}
           to="/dashboard"
         >
