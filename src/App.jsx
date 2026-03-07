@@ -1,6 +1,5 @@
 import { Routes, Route, useLocation } from "react-router-dom";
 import "./App.css";
-
 import Sidebar from "./Components/SideBar";
 import LandingPage from "./Components/LandingPage";
 import ViewProducts from "./Components/ViewProducts";
