@@ -54,20 +54,14 @@ const stockSlice = createSlice({
     },
 
     deleteProduct: (state, action) => {
-      state.products = state.products.filter(p => p.id !== action.payload);
-      persist(state.products);
-    },
+      const id = action.payload;
 
-    clearAll: (state) => {
-      state.products = [];
-      state.sales = [];
-      localStorage.removeItem("products");
-      localStorage.removeItem("sales");
-    },
+      state.products = state.products.filter(p => p.id !== id);
 
-    setProducts: (state, action) => {
-      state.products = action.payload;
-      persist(state.products);
+      // remove sales related to that product
+      state.sales = state.sales.filter(s => s.productId !== id);
+
+      persist(state.products, state.sales);
     },
   },
 });

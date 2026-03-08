@@ -3,6 +3,17 @@ import { addProduct } from "../redux/slice/stockSlice";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
+function InputField({ placeholder, value, onChange, type = "text" }) {
+  return (
+    <input
+      type={type}
+      placeholder={placeholder}
+      value={value}
+      onChange={onChange}
+    />
+  );
+}
+
 export default function AddProduct() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -47,23 +58,36 @@ export default function AddProduct() {
     navigate("/products");
   };
 
-  const InputField = ({ placeholder, value, onChange, type = "text" }) => (
-    <input
-      type={type}
-      placeholder={placeholder}
-      value={value}
-      onChange={onChange}
-    />
-  );
-
   return (
     <div className="card">
       <h3>Add Product</h3>
 
-      <InputField placeholder="Product Name" value={name} onChange={e => setName(e.target.value)} />
-      <InputField type="number" placeholder="Min Price" value={minPrice} onChange={e => setMinPrice(e.target.value)} />
-      <InputField type="number" placeholder="Max Price" value={maxPrice} onChange={e => setMaxPrice(e.target.value)} />
-      <InputField type="number" placeholder="Stock" value={stock} onChange={e => setStock(e.target.value)} />
+      <InputField
+        placeholder="Product Name"
+        value={name}
+        onChange={e => setName(e.target.value)}
+      />
+
+      <InputField
+        type="number"
+        placeholder="Min Price"
+        value={minPrice}
+        onChange={e => setMinPrice(e.target.value)}
+      />
+
+      <InputField
+        type="number"
+        placeholder="Max Price"
+        value={maxPrice}
+        onChange={e => setMaxPrice(e.target.value)}
+      />
+
+      <InputField
+        type="number"
+        placeholder="Stock"
+        value={stock}
+        onChange={e => setStock(e.target.value)}
+      />
 
       <button onClick={handleSubmit}>Add Product</button>
     </div>
