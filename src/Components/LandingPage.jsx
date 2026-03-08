@@ -9,7 +9,7 @@ function LandingPage() {
     <div className="landing-container">
 
       <div className="hero-section">
-        <h1>Warehouse Inventory System</h1>
+        <h1>Stock Management System</h1>
 
         <p>
           A powerful warehouse management application designed to help
