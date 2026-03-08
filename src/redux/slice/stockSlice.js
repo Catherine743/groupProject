@@ -63,8 +63,12 @@ const stockSlice = createSlice({
 
       persist(state.products, state.sales);
     },
+
+    clearProducts: (state) => {
+      state.products = [];
+    },
   },
 });
 
-export const { addProduct, updateProduct, addSale, deleteProduct, setProducts, clearAll } = stockSlice.actions;
+export const { addProduct, updateProduct, addSale, deleteProduct, clearProducts } = stockSlice.actions;
 export default stockSlice.reducer;

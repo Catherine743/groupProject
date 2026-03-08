@@ -1,14 +1,25 @@
 import { useSelector } from "react-redux";
 import { useState, useMemo } from "react";
-import { BarChart, Bar, XAxis, YAxis, Tooltip, PieChart, Pie, Cell, Legend } from "recharts";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  Tooltip,
+  PieChart,
+  Pie,
+  Cell,
+  Legend
+} from "recharts";
 
 export default function Dashboard() {
 
   const { products, sales } = useSelector(state => state.stockReducer);
 
   const [sortType, setSortType] = useState("top5");
-  const [selectedMonth] = useState(new Date().getMonth());
-  const [selectedYear] = useState(new Date().getFullYear());
+
+  const [selectedMonth, setSelectedMonth] = useState(new Date().getMonth());
+  const [selectedYear, setSelectedYear] = useState(new Date().getFullYear());
 
   // Total Revenue
   const totalRevenue = useMemo(() =>
@@ -25,7 +36,10 @@ export default function Dashboard() {
 
       const d = new Date(sale.date);
 
-      if (d.getMonth() === selectedMonth && d.getFullYear() === selectedYear) {
+      if (
+        d.getMonth() === selectedMonth &&
+        d.getFullYear() === selectedYear
+      ) {
 
         if (!data[sale.productId]) {
           data[sale.productId] = { quantity: 0, revenue: 0 };
@@ -39,9 +53,17 @@ export default function Dashboard() {
 
     return Object.entries(data)
       .map(([id, val]) => {
+
         const product = products.find(p => p.id === Number(id));
+
         if (!product) return null;
-        return { name: product.name, ...val };
+
+        return {
+          name: product.name,
+          quantity: val.quantity,
+          revenue: val.revenue
+        };
+
       })
       .filter(Boolean);
 
@@ -52,13 +74,20 @@ export default function Dashboard() {
   const { sortedData, mostSold, leastSold, monthlyRevenue } = useMemo(() => {
 
     if (!salesDataForMonth.length)
-      return { sortedData: [], mostSold: null, leastSold: null, monthlyRevenue: 0 };
+      return {
+        sortedData: [],
+        mostSold: null,
+        leastSold: null,
+        monthlyRevenue: 0
+      };
 
-    const monthlyRevenue = salesDataForMonth.reduce((acc, s) => acc + s.revenue, 0);
+    const monthlyRevenue = salesDataForMonth.reduce(
+      (acc, s) => acc + s.revenue,
+      0
+    );
 
     const sorted = [...salesDataForMonth];
 
-    // Sorting Logic
     if (sortType === "top5") {
       sorted.sort((a, b) => b.quantity - a.quantity);
     }
@@ -69,20 +98,22 @@ export default function Dashboard() {
       sorted.sort((a, b) => b.revenue - a.revenue);
     }
 
-    // Always take exactly 5
     const sortedData = sorted.slice(0, 5);
 
-    // Most Sold
     const mostSold = salesDataForMonth.reduce((max, curr) =>
       curr.quantity > max.quantity ? curr : max
     );
 
-    // Least Sold
     const leastSold = salesDataForMonth.reduce((min, curr) =>
       curr.quantity < min.quantity ? curr : min
     );
 
-    return { sortedData, mostSold, leastSold, monthlyRevenue };
+    return {
+      sortedData,
+      mostSold,
+      leastSold,
+      monthlyRevenue
+    };
 
   }, [salesDataForMonth, sortType]);
 
@@ -97,9 +128,16 @@ export default function Dashboard() {
     "#AA336A"
   ];
 
+  const months = [
+    "January","February","March","April","May","June",
+    "July","August","September","October","November","December"
+  ];
+
+  const years = [2023, 2024, 2025, 2026];
 
 
   return (
+
     <div className="dashboard-card">
 
       <h2>📊 Smart Analytics Dashboard</h2>
@@ -121,6 +159,36 @@ export default function Dashboard() {
       {leastSold && (
         <p>📦 Least Sold: {leastSold.name} ({leastSold.quantity})</p>
       )}
+
+      <hr />
+
+      <h3>📅 Select Month & Year</h3>
+
+      <div style={{ display: "flex", gap: "15px", marginBottom: "20px" }}>
+
+        <select
+          value={selectedMonth}
+          onChange={e => setSelectedMonth(Number(e.target.value))}
+        >
+          {months.map((m, index) => (
+            <option key={index} value={index}>
+              {m}
+            </option>
+          ))}
+        </select>
+
+        <select
+          value={selectedYear}
+          onChange={e => setSelectedYear(Number(e.target.value))}
+        >
+          {years.map(y => (
+            <option key={y} value={y}>
+              {y}
+            </option>
+          ))}
+        </select>
+
+      </div>
 
       <hr />
 

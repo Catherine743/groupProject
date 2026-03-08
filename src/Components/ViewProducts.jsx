@@ -1,7 +1,7 @@
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useState, useMemo } from "react";
-import { deleteProduct } from "../redux/slice/stockSlice";
+import { clearProducts, deleteProduct } from "../redux/slice/stockSlice";
 
 function ViewProducts() {
   const { products, threshold } = useSelector(state => state.stockReducer);
@@ -30,6 +30,12 @@ function ViewProducts() {
     });
   }, [products, minPrice, maxPrice, filter]);
 
+  const handleClearAll = () => {
+    if (window.confirm("Delete all products?")) {
+      dispatch(clearProducts());
+    }
+  };
+
   return (
     <div className="container mt-4">
       <h2>Products</h2>
@@ -53,6 +59,12 @@ function ViewProducts() {
           value={maxPrice}
           onChange={e => setMaxPrice(e.target.value)}
         />
+      </div>
+
+      <div style={{ marginTop: "10px" }}>
+        <button onClick={handleClearAll}>
+          Clear All Products
+        </button>
       </div>
 
       <table className="table mt-3">
