@@ -155,7 +155,7 @@ export default function Dashboard() {
 
     <div className="dashboard-card">
 
-      <h2>📊 Smart Analytics Dashboard</h2>
+      <h2>Smart Analytics Dashboard</h2>
 
       <p>Total Products: {products.length}</p>
 
@@ -168,16 +168,16 @@ export default function Dashboard() {
       <p>Estimated Profit (20%): ₹{profit.toFixed(2)}</p>
 
       {mostSold && (
-        <p>📈 Most Sold: {mostSold.name} ({mostSold.quantity})</p>
+        <p>Most Sold: {mostSold.name} ({mostSold.quantity})</p>
       )}
 
       {leastSold && (
-        <p>📦 Least Sold: {leastSold.name} ({leastSold.quantity})</p>
+        <p>Least Sold: {leastSold.name} ({leastSold.quantity})</p>
       )}
 
       <hr />
 
-      <h3>📅 Select Month & Year</h3>
+      <h3> Select Month & Year</h3>
 
       <div style={{ display: "flex", gap: "15px", marginBottom: "20px" }}>
 
@@ -207,7 +207,7 @@ export default function Dashboard() {
 
       <hr />
 
-      <h3>🔎 Sort Products</h3>
+      <h3> Sort Products</h3>
 
       <select
         value={sortType}
@@ -220,7 +220,7 @@ export default function Dashboard() {
 
       <hr />
 
-      <h3>📊 Sales Chart</h3>
+      <h3> Sales Chart</h3>
 
       <BarChart
         width={500}
@@ -240,7 +240,7 @@ export default function Dashboard() {
 
       <hr />
 
-      <h3>🥧 Revenue Distribution</h3>
+      <h3> Revenue Distribution</h3>
 
       <PieChart width={500} height={350}>
 
