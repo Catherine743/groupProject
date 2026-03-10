@@ -27,7 +27,7 @@ export default function Dashboard() {
     [sales]
   );
 
-  // 1️⃣ Filter sales of selected month
+  // Filter sales of selected month
   const monthlySales = useMemo(() => {
     return sales.filter(sale => {
       const d = new Date(sale.date);
@@ -41,7 +41,7 @@ export default function Dashboard() {
 
 
 
-  // 2️⃣ Monthly Revenue
+  // Monthly Revenue
   const monthlyRevenue = useMemo(() => {
     return monthlySales.reduce(
       (sum, sale) => sum + sale.totalAmount,
@@ -51,7 +51,7 @@ export default function Dashboard() {
 
 
 
-  // 3️⃣ Product wise monthly data
+  // Product wise monthly data
   const salesDataForMonth = useMemo(() => {
 
     const data = {};
@@ -87,7 +87,7 @@ export default function Dashboard() {
 
 
 
-  // 4️⃣ Sorting + Most/Least sold
+  // Sorting + Most/Least sold
   const { sortedData, mostSold, leastSold } = useMemo(() => {
 
     if (!salesDataForMonth.length)
