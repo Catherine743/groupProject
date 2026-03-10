@@ -86,7 +86,6 @@ export default function Dashboard() {
   }, [monthlySales, products]);
 
 
-
   // Sorting + Most/Least sold
   const { sortedData, mostSold, leastSold } = useMemo(() => {
 
@@ -126,7 +125,6 @@ export default function Dashboard() {
     };
 
   }, [salesDataForMonth, sortType]);
-
 
 
   // Profit (20%)
@@ -252,7 +250,7 @@ export default function Dashboard() {
           label
         >
 
-          {sortedData.map((entry, index) => (
+          {sortedData.map((index) => (
             <Cell
               key={index}
               fill={COLORS[index % COLORS.length]}
