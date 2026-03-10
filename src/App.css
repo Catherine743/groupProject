@@ -137,6 +137,7 @@ button:hover {
 table {
   width: 100%;
   border-collapse: collapse;
+  table-layout: fixed;
   margin-top: 20px;
   background: var(--bg-card);
   border-radius: 10px;
@@ -144,21 +145,25 @@ table {
   box-shadow: 0 8px 20px rgba(0,0,0,0.05);
 }
 
+th, td {
+  padding: 12px;
+  text-align: left;
+  vertical-align: middle;
+}
+
 th {
   background: var(--primary);
   color: white;
-  padding: 12px;
 }
 
 td {
-  padding: 12px;
   border-bottom: 1px solid #eee;
 }
 
-tr:hover {
-  background: #f7f9ff;
+.action-buttons {
+  display: flex;
+  gap: 10px;
 }
-
 /* Messages */
 .success {
   color: green;
@@ -318,7 +323,10 @@ tr:hover {
 
 /* Chart Focus Fix */
 
-.chart:focus,
-.chart *:focus {
+.recharts-wrapper:focus {
+  outline: none;
+}
+
+.recharts-wrapper *:focus {
   outline: none;
 }
