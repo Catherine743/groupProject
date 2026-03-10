@@ -66,6 +66,10 @@ const stockSlice = createSlice({
 
     clearProducts: (state) => {
       state.products = [];
+      state.sales = [];
+
+      localStorage.removeItem("products");
+      localStorage.removeItem("sales");
     },
   },
 });
