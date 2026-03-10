@@ -23,7 +23,7 @@ export default function Dashboard() {
 
   // Total Revenue (All Time)
   const totalRevenue = useMemo(() =>
-    sales.reduce((acc, s) => acc + s.totalAmount, 0),
+    sales.reduce((sum, s) => sum + s.totalAmount, 0),
     [sales]
   );
 
