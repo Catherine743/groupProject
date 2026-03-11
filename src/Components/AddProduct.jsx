@@ -2,6 +2,7 @@ import { useDispatch } from "react-redux";
 import { addProduct } from "../redux/slice/stockSlice";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
+import "../App.css";
 
 function InputField({ placeholder, value, onChange, type = "text" }) {
   return (
@@ -62,27 +63,27 @@ export default function AddProduct() {
     <div className="card">
       <h3>Add Product</h3>
 
-      <InputField
+      <InputField Style={{width: "90%"}}
         placeholder="Product Name"
         value={name}
         onChange={e => setName(e.target.value)}
       />
 
-      <InputField
+      <InputField className='input-field'
         type="number"
         placeholder="Min Price"
         value={minPrice}
         onChange={e => setMinPrice(e.target.value)}
       />
 
-      <InputField
+      <InputField className='input-field'
         type="number"
         placeholder="Max Price"
         value={maxPrice}
         onChange={e => setMaxPrice(e.target.value)}
       />
 
-      <InputField
+      <InputField className='input-field'
         type="number"
         placeholder="Stock"
         value={stock}

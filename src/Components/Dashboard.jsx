@@ -155,23 +155,25 @@ export default function Dashboard() {
 
       <h2>Smart Analytics Dashboard</h2>
 
-      <p>Total Products: {products.length}</p>
-
-      <p>Total Revenue: ₹{totalRevenue}</p>
-
-      <p>
-        Monthly Revenue ({selectedMonth + 1}/{selectedYear}): ₹{monthlyRevenue}
-      </p>
-
-      <p>Estimated Profit (20%): ₹{profit.toFixed(2)}</p>
-
-      {mostSold && (
-        <p>Most Sold: {mostSold.name} ({mostSold.quantity})</p>
-      )}
-
-      {leastSold && (
-        <p>Least Sold: {leastSold.name} ({leastSold.quantity})</p>
-      )}
+      <div className="dashboard-stats">
+        <p><span className="stat">Total Products:</span> {products.length}</p>
+  
+        <p><span className="stat">Total Revenue:</span> ₹{totalRevenue}</p>
+  
+        <p>
+          <span className="stat">Monthly Revenue ({selectedMonth + 1}/{selectedYear}):</span> ₹{monthlyRevenue}
+        </p>
+  
+        <p><span className="stat">Estimated Profit (20%):</span> ₹{profit.toFixed(2)}</p>
+  
+        {mostSold && (
+          <p><span className="stat">Most Sold:</span> {mostSold.name} ({mostSold.quantity})</p>
+        )}
+  
+        {leastSold && (
+          <p><span className="stat">Least Sold: </span>{leastSold.name} ({leastSold.quantity})</p>
+        )}
+      </div>
 
       <hr />
 
@@ -220,7 +222,7 @@ export default function Dashboard() {
 
       <h3> Sales Chart</h3>
 
-      <BarChart
+      {salesDataForMonth.length > 0 ?<BarChart
         width={500}
         height={300}
         data={sortedData}
@@ -234,13 +236,14 @@ export default function Dashboard() {
           fill="#4a6cf7"
         />
 
-      </BarChart>
+      </BarChart>: <p className="">No sales data available.</p>}
+      
 
       <hr />
 
       <h3> Revenue Distribution</h3>
 
-      <PieChart width={500} height={350}>
+      { salesDataForMonth.length > 0?<PieChart width={500} height={350}>
 
         <Pie
           data={sortedData}
@@ -250,7 +253,7 @@ export default function Dashboard() {
           label
         >
 
-          {sortedData.map((index) => (
+          {sortedData.map((entry,index) => (
             <Cell
               key={index}
               fill={COLORS[index % COLORS.length]}
@@ -263,7 +266,7 @@ export default function Dashboard() {
 
         <Tooltip />
 
-      </PieChart>
+      </PieChart>: <p className="">No sales data available.</p>}
 
     </div>
   );
