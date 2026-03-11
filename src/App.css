@@ -61,6 +61,9 @@ body {
   color:#fdfeff;
   margin-bottom:5px;
 }
+.landing-image{
+  filter: hue-rotate(330deg);
+}
 .nav-links a {
   text-decoration: none;
   color: var(--text-light);
@@ -260,6 +263,8 @@ td {
 .features {
   padding: 70px 10%;
   text-align: center;
+  background-color:#d9e9fe ;
+
 }
 
 .features h2 {

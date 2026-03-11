@@ -142,7 +142,8 @@ function LandingPage() {
         <div className="hero-right">
 
           <img
-            src="https://flxdeal.com/wp-content/uploads/2023/03/Home-Slider.png"
+          className="landing-image"
+            src="https://flxdeal.com/wp-content/uploads/2023/03/Home-Slider.png" 
             alt="warehouse"
           />
 
