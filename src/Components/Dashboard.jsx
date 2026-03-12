@@ -121,9 +121,6 @@ export default function Dashboard() {
   }, [salesDataForMonth, sortType]);
 
 
-  // Profit (20%)
-  const profit = monthlyRevenue * 0.2;
-
 
 
   const COLORS = [
@@ -157,8 +154,6 @@ export default function Dashboard() {
         <p>
           <span className="stat">Monthly Revenue ({selectedMonth + 1}/{selectedYear}):</span> ₹{monthlyRevenue}
         </p>
-
-        <p><span className="stat">Estimated Profit (20%):</span> ₹{profit.toFixed(2)}</p>
 
         {mostSold && (
           <p><span className="stat">Most Sold:</span> {mostSold.name} ({mostSold.quantity})</p>
