@@ -53,36 +53,30 @@ export default function Dashboard() {
 
   // Product wise monthly data
   const salesDataForMonth = useMemo(() => {
-
     const data = {};
 
     monthlySales.forEach(sale => {
-
       if (!data[sale.productId]) {
         data[sale.productId] = { quantity: 0, revenue: 0 };
       }
-
       data[sale.productId].quantity += sale.quantity;
       data[sale.productId].revenue += sale.totalAmount;
-
     });
 
     return Object.entries(data)
       .map(([id, val]) => {
-
         const product = products.find(p => p.id === Number(id));
-
-        if (!product) return null;
-
+        if (!product) {
+          console.warn("Product not found for sale id:", id);
+          return null;
+        }
         return {
-          name: product.name,
+          name: product.name || `Product ${id}`, // fallback if name missing
           quantity: val.quantity,
           revenue: val.revenue
         };
-
       })
       .filter(Boolean);
-
   }, [monthlySales, products]);
 
 
@@ -141,8 +135,8 @@ export default function Dashboard() {
   ];
 
   const months = [
-    "January","February","March","April","May","June",
-    "July","August","September","October","November","December"
+    "January", "February", "March", "April", "May", "June",
+    "July", "August", "September", "October", "November", "December"
   ];
 
   const years = [2023, 2024, 2025, 2026];
@@ -157,19 +151,19 @@ export default function Dashboard() {
 
       <div className="dashboard-stats">
         <p><span className="stat">Total Products:</span> {products.length}</p>
-  
+
         <p><span className="stat">Total Revenue:</span> ₹{totalRevenue}</p>
-  
+
         <p>
           <span className="stat">Monthly Revenue ({selectedMonth + 1}/{selectedYear}):</span> ₹{monthlyRevenue}
         </p>
-  
+
         <p><span className="stat">Estimated Profit (20%):</span> ₹{profit.toFixed(2)}</p>
-  
+
         {mostSold && (
           <p><span className="stat">Most Sold:</span> {mostSold.name} ({mostSold.quantity})</p>
         )}
-  
+
         {leastSold && (
           <p><span className="stat">Least Sold: </span>{leastSold.name} ({leastSold.quantity})</p>
         )}
@@ -222,12 +216,17 @@ export default function Dashboard() {
 
       <h3> Sales Chart</h3>
 
-      {salesDataForMonth.length > 0 ?<BarChart
+      {salesDataForMonth.length > 0 ? <BarChart
         width={500}
         height={300}
         data={sortedData}
+        marginRight={20}
       >
-        <XAxis dataKey="name" />
+        <XAxis dataKey="name"
+          angle={0}             // no rotation
+          textAnchor="middle"
+          interval={0}          // show all labels
+          tick={{ fontSize: 12, wordBreak: "break-word" }} />
         <YAxis />
         <Tooltip />
 
@@ -236,14 +235,14 @@ export default function Dashboard() {
           fill="#4a6cf7"
         />
 
-      </BarChart>: <p className="">No sales data available.</p>}
-      
+      </BarChart> : <p className="">No sales data available.</p>}
+
 
       <hr />
 
       <h3> Revenue Distribution</h3>
 
-      { salesDataForMonth.length > 0?<PieChart width={500} height={350}>
+      {salesDataForMonth.length > 0 ? <PieChart width={500} height={350}>
 
         <Pie
           data={sortedData}
@@ -253,7 +252,7 @@ export default function Dashboard() {
           label
         >
 
-          {sortedData.map((entry,index) => (
+          {sortedData.map((entry, index) => (
             <Cell
               key={index}
               fill={COLORS[index % COLORS.length]}
@@ -266,7 +265,7 @@ export default function Dashboard() {
 
         <Tooltip />
 
-      </PieChart>: <p className="">No sales data available.</p>}
+      </PieChart> : <p className="">No sales data available.</p>}
 
     </div>
   );

@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { addProduct } from "../redux/slice/stockSlice";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
@@ -18,30 +18,22 @@ function InputField({ placeholder, value, onChange, type = "text" }) {
 export default function AddProduct() {
   const dispatch = useDispatch();
   const navigate = useNavigate();
+  
+  const products = useSelector(state => state.stockReducer.products);
+  const categories = [...new Set(products.map(p => p.category))];
 
   const [name, setName] = useState("");
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
+  const [price, setPrice] = useState("");
   const [stock, setStock] = useState("");
+  const [category, setCategory] = useState("");
 
   const handleSubmit = () => {
     const trimmedName = name.trim();
-    const min = Number(minPrice);
-    const max = Number(maxPrice);
+    const prc = Number(price);
     const stk = Number(stock);
 
-    if (!trimmedName || !minPrice || !maxPrice || !stock) {
+    if (!trimmedName || !price || !stock || !category) {
       alert("Please fill all fields");
-      return;
-    }
-
-    if (min > max) {
-      alert("Max Price must be greater than or equal to Min Price");
-      return;
-    }
-
-    if (stk < 0) {
-      alert("Stock cannot be negative");
       return;
     }
 
@@ -49,8 +41,8 @@ export default function AddProduct() {
       addProduct({
         id: Date.now(),
         name: trimmedName,
-        minPrice: min,
-        maxPrice: max,
+        category,
+        price: prc,
         stock: stk,
         sold: 0,
       })
@@ -63,27 +55,32 @@ export default function AddProduct() {
     <div className="card">
       <h3>Add Product</h3>
 
-      <InputField Style={{width: "90%"}}
+      <InputField
         placeholder="Product Name"
         value={name}
         onChange={e => setName(e.target.value)}
       />
 
-      <InputField className='input-field'
+      <input
+        list="category-list"
+        placeholder="Select or type category"
+        value={category}
+        onChange={e => setCategory(e.target.value)}
+      />
+      <datalist id="category-list">
+        {categories.map((cat, index) => (
+          <option key={index} value={cat} />
+        ))}
+      </datalist>
+
+      <InputField
         type="number"
-        placeholder="Min Price"
-        value={minPrice}
-        onChange={e => setMinPrice(e.target.value)}
+        placeholder="Price"
+        value={price}
+        onChange={e => setPrice(e.target.value)}
       />
 
-      <InputField className='input-field'
-        type="number"
-        placeholder="Max Price"
-        value={maxPrice}
-        onChange={e => setMaxPrice(e.target.value)}
-      />
-
-      <InputField className='input-field'
+      <InputField
         type="number"
         placeholder="Stock"
         value={stock}

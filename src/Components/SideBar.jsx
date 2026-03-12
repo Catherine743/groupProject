@@ -6,7 +6,7 @@ function Sidebar() {
   return (
     <div className="sidebar">
       <Link to="/" className="logo-link">
-        <h2 className="logo">Smart Inventory</h2>
+        <h2 className="logo">SaleScope</h2>
       </Link>
 
       <div className="nav-links">

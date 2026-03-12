@@ -9,7 +9,6 @@ const initialState = {
   threshold: 5,
 };
 
-// Helper to persist products and sales
 const persist = (products, sales) => {
   localStorage.setItem("products", JSON.stringify(products));
   if (sales) localStorage.setItem("sales", JSON.stringify(sales));
@@ -18,29 +17,32 @@ const persist = (products, sales) => {
 const stockSlice = createSlice({
   name: "stock",
   initialState,
+
   reducers: {
+
     addProduct: (state, action) => {
-      state.products.push({ ...action.payload, sold: 0 });
+      state.products.push(action.payload);
       persist(state.products);
     },
 
     updateProduct: (state, action) => {
       const index = state.products.findIndex(p => p.id === action.payload.id);
       if (index === -1) return;
+
       state.products[index] = { ...state.products[index], ...action.payload };
       persist(state.products);
     },
 
     addSale: (state, action) => {
       const { productId, quantity } = action.payload;
+
       const product = state.products.find(p => p.id === productId);
       if (!product || product.stock < quantity) return;
 
       product.stock -= quantity;
       product.sold += quantity;
 
-      const avgPrice = (product.minPrice + product.maxPrice) / 2;
-      const totalAmount = quantity * avgPrice;
+      const totalAmount = quantity * product.price;
 
       state.sales.push({
         id: Date.now(),
@@ -57,8 +59,6 @@ const stockSlice = createSlice({
       const id = action.payload;
 
       state.products = state.products.filter(p => p.id !== id);
-
-      // remove sales related to that product
       state.sales = state.sales.filter(s => s.productId !== id);
 
       persist(state.products, state.sales);
@@ -74,5 +74,12 @@ const stockSlice = createSlice({
   },
 });
 
-export const { addProduct, updateProduct, addSale, deleteProduct, clearProducts } = stockSlice.actions;
+export const {
+  addProduct,
+  updateProduct,
+  addSale,
+  deleteProduct,
+  clearProducts,
+} = stockSlice.actions;
+
 export default stockSlice.reducer;

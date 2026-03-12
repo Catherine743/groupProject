@@ -12,7 +12,6 @@ export default function AddSale() {
   const passedProductId = location.state?.productId || "";
   const [productId, setProductId] = useState(passedProductId);
   const [quantity, setQuantity] = useState("");
-  const [price, setPrice] = useState("");
   const [message, setMessage] = useState("");
 
   const selectedProduct = useMemo(
@@ -21,27 +20,20 @@ export default function AddSale() {
   );
 
   const totalAmount = useMemo(
-    () => (price && quantity ? Number(price) * Number(quantity) : 0),
-    [price, quantity]
+    () => (quantity && selectedProduct ? Number(quantity) * selectedProduct.price : 0),
+    [quantity, selectedProduct]
   );
 
   const handleSale = () => {
-    if (!productId || !quantity || !price) {
+    if (!productId || !quantity) {
       setMessage("Please fill all fields");
       return;
     }
-    if (!selectedProduct) {
-      setMessage("Product not found");
-      return;
-    }
+
     const qty = Number(quantity);
-    const prc = Number(price);
+
     if (qty > selectedProduct.stock) {
       setMessage("Not enough stock available");
-      return;
-    }
-    if (prc < selectedProduct.minPrice || prc > selectedProduct.maxPrice) {
-      setMessage("Price must be within product's price range");
       return;
     }
 
@@ -49,25 +41,22 @@ export default function AddSale() {
       addSale({
         productId: selectedProduct.id,
         quantity: qty,
-        totalAmount,
-        date: new Date().toISOString(),
       })
     );
 
-    setMessage("Sale recorded successfully!");
     navigate("/products");
   };
 
   return (
     <div className="card">
-      <h3>🛒 Record Sale</h3>
+      <h3>Record Sale</h3>
 
       {passedProductId ? (
-        <p>Product: <strong>{selectedProduct?.name || "Unknown"}</strong></p>
+        <p>Product: <strong>{selectedProduct?.name}</strong></p>
       ) : (
         <select
           value={productId}
-          onChange={e => { setProductId(e.target.value); setMessage(""); }}
+          onChange={e => setProductId(e.target.value)}
         >
           <option value="">Select Product</option>
           {products.map(p => (
@@ -78,17 +67,12 @@ export default function AddSale() {
 
       {selectedProduct && (
         <p>
+          Category: {selectedProduct.category} <br />
           Available Stock: {selectedProduct.stock} <br />
-          Price Range: ₹{selectedProduct.minPrice} - ₹{selectedProduct.maxPrice}
+          Price: ₹{selectedProduct.price}
         </p>
       )}
 
-      <input
-        type="number"
-        placeholder="Selling Price"
-        value={price}
-        onChange={e => setPrice(e.target.value)}
-      />
       <input
         type="number"
         placeholder="Quantity"
@@ -96,9 +80,10 @@ export default function AddSale() {
         onChange={e => setQuantity(e.target.value)}
       />
 
-      {price && quantity && <p>Total Amount: ₹{totalAmount}</p>}
+      {quantity && <p>Total Amount: ₹{totalAmount}</p>}
 
       <button onClick={handleSale}>Sell</button>
+
       {message && <p>{message}</p>}
     </div>
   );

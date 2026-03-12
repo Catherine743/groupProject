@@ -122,7 +122,7 @@ function LandingPage() {
 
         <div className="hero-left">
 
-          <h1>Smart Inventory System</h1>
+          <h1>SaleScope</h1>
 
           <p>
             Smart warehouse management system to control inventory,

@@ -12,18 +12,16 @@ function EditProduct() {
     state.stockReducer.products.find(item => item.id === Number(id))
   );
 
-  // Early return if product not found
+  const products = useSelector(state => state.stockReducer.products);
+  const categories = [...new Set(products.map(p => p.category))];
+
   if (!product) return <p>Product not found</p>;
 
-  // Initialize state after ensuring product exists
   const [form, setForm] = useState({
-    name: product.name,
-    minPrice: product.minPrice,
-    maxPrice: product.maxPrice,
+    price: product.price,
     stock: product.stock,
   });
 
-  // Generic handler for input changes
   const handleChange = e => {
     const { name, value } = e.target;
     setForm(prev => ({
@@ -35,11 +33,12 @@ function EditProduct() {
   const handleUpdate = () => {
     dispatch(updateProduct({
       id: product.id,
-      name: form.name,
-      minPrice: Number(form.minPrice),
-      maxPrice: Number(form.maxPrice),
+      name: product.name,
+      category: product.category,
+      price: Number(form.price),
       stock: Number(form.stock),
     }));
+
     navigate("/products");
   };
 
@@ -50,23 +49,24 @@ function EditProduct() {
       <label>Product Name</label>
       <input
         name="name"
-        value={form.name}
-        onChange={handleChange}
+        value={product.name}
+        readOnly
+        style={{ backgroundColor: "#f0f0f0", cursor: "not-allowed" }}
       />
 
-      <label>Min Price</label>
+      <label>Category</label>
       <input
-        type="number"
-        name="minPrice"
-        value={form.minPrice}
-        onChange={handleChange}
+        name="category"
+        value={product.category}
+        readOnly
+        style={{ backgroundColor: "#f0f0f0", cursor: "not-allowed" }}
       />
 
-      <label>Max Price</label>
+      <label>Price</label>
       <input
         type="number"
-        name="maxPrice"
-        value={form.maxPrice}
+        name="price"
+        value={form.price}
         onChange={handleChange}
       />
 

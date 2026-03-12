@@ -9,26 +9,16 @@ function ViewProducts() {
   const dispatch = useDispatch();
 
   const [filter, setFilter] = useState("");
-  const [minPrice, setMinPrice] = useState("");
-  const [maxPrice, setMaxPrice] = useState("");
+  const [categoryFilter, setCategoryFilter] = useState("");
+  const categories = [...new Set(products.map(p => p.category))];
 
   const filteredProducts = useMemo(() => {
-    const fMin = minPrice ? parseInt(minPrice) : null;
-    const fMax = maxPrice ? parseInt(maxPrice) : null;
-
-    const matchesPrice = (pMin, pMax) => {
-      if (fMin !== null && fMax === null) return fMin >= pMin && fMin <= pMax;
-      if (fMax !== null && fMin === null) return fMax >= pMin && fMax <= pMax;
-      if (fMin !== null && fMax !== null) return pMax >= fMin && pMin <= fMax;
-      return true; // no min/max typed → include all
-    };
-
-    return products.filter(({ minPrice: pMin, maxPrice: pMax, name }) => {
-      const priceMatch = matchesPrice(pMin, pMax);
-      const searchMatch = filter ? name.toLowerCase().includes(filter.toLowerCase()) : true;
-      return priceMatch && searchMatch;
+    return products.filter(product => {
+      const nameMatch = product.name.toLowerCase().includes(filter.toLowerCase());
+      const categoryMatch = categoryFilter ? product.category === categoryFilter : true;
+      return nameMatch && categoryMatch;
     });
-  }, [products, minPrice, maxPrice, filter]);
+  }, [products, filter, categoryFilter]);
 
   const handleClearAll = () => {
     if (window.confirm("Delete all products?")) {
@@ -46,20 +36,15 @@ function ViewProducts() {
         onChange={e => setFilter(e.target.value)}
       />
 
-      <div style={{ display: "flex", gap: "10px", marginTop: "10px" }}>
-        <input
-          type="number"
-          placeholder="Min Price"
-          value={minPrice}
-          onChange={e => setMinPrice(e.target.value)}
-        />
-        <input
-          type="number"
-          placeholder="Max Price"
-          value={maxPrice}
-          onChange={e => setMaxPrice(e.target.value)}
-        />
-      </div>
+      <select
+        value={categoryFilter}
+        onChange={e => setCategoryFilter(e.target.value)}
+      >
+        <option value="">All Categories</option>
+        {categories.map((cat, index) => (
+          <option key={index} value={cat}>{cat}</option>
+        ))}
+      </select>
 
       <div style={{ marginTop: "10px" }}>
         <button onClick={handleClearAll}>
@@ -71,7 +56,8 @@ function ViewProducts() {
         <thead>
           <tr>
             <th>Name</th>
-            <th>Price Range</th>
+            <th>Category</th>
+            <th>Price</th>
             <th>Stock</th>
             <th>Sold</th>
             <th>Action</th>
@@ -81,7 +67,8 @@ function ViewProducts() {
           {filteredProducts.map(product => (
             <tr key={product.id}>
               <td>{product.name}</td>
-              <td>₹{product.minPrice} - ₹{product.maxPrice}</td>
+              <td>{product.category}</td>
+              <td>₹{product.price}</td>
               <td>
                 {product.stock}
                 {product.stock <= threshold && <span className="low-stock"> (Low Stock!)</span>}
