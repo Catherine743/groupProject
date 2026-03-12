@@ -219,7 +219,7 @@ export default function Dashboard() {
       >
         <XAxis dataKey="name"
           angle={0}             // no rotation
-          textAnchor="middle"
+          textAnchor="start"
           interval={0}          // show all labels
           tick={{ fontSize: 12, wordBreak: "break-word" }} />
         <YAxis />
