@@ -218,7 +218,7 @@ export default function Dashboard() {
         marginRight={20}
       >
         <XAxis dataKey="name"
-          angle={0}             // no rotation
+          angle={20}             // no rotation
           textAnchor="middle"
           interval={0}          // show all labels
           tick={{ fontSize: 12, wordBreak: "break-word" }} />
