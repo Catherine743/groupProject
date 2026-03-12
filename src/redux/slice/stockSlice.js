@@ -3,12 +3,6 @@ import { createSlice } from "@reduxjs/toolkit";
 const storedProducts = JSON.parse(localStorage.getItem("products")) || [];
 const storedSales = JSON.parse(localStorage.getItem("sales")) || [];
 
-const initialState = {
-  products: storedProducts,
-  sales: storedSales,
-  threshold: 5,
-};
-
 const persist = (products, sales) => {
   localStorage.setItem("products", JSON.stringify(products));
   if (sales) localStorage.setItem("sales", JSON.stringify(sales));
@@ -16,10 +10,14 @@ const persist = (products, sales) => {
 
 const stockSlice = createSlice({
   name: "stock",
-  initialState,
+
+  initialState : {
+  products: storedProducts,
+  sales: storedSales,
+  threshold: 5,
+  },
 
   reducers: {
-
     addProduct: (state, action) => {
       state.products.push(action.payload);
       persist(state.products);
