@@ -35,7 +35,7 @@ function LandingPage() {
 
           <img
           className="landing-image"
-            src="https://flxdeal.com/wp-content/uploads/2023/03/Home-Slider.png" 
+            src="https://png.pngtree.com/png-clipart/20250528/original/pngtree-retail-goods-cart-png-image_21084479.png" 
             alt="warehouse"
           />
 
