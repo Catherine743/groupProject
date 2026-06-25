@@ -44,8 +44,7 @@ export default function Dashboard() {
   // Monthly Revenue
   const monthlyRevenue = useMemo(() => {
     return monthlySales.reduce(
-      (sum, sale) => sum + sale.totalAmount,
-      0
+      (sum, sale) => sum + sale.totalAmount, 0
     );
   }, [monthlySales]);
 
