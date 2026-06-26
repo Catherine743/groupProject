@@ -217,10 +217,12 @@ export default function Dashboard() {
         marginRight={20}
       >
         <XAxis dataKey="name"
-          angle={0}             // no rotation
-          textAnchor="start"
-          interval={0}          // show all labels
-          tick={{ fontSize: 12, wordBreak: "break-word" }} />
+          dataKey="name"
+          angle={-20}
+          textAnchor="end"
+          interval={0}
+          height={80}
+        />
         <YAxis />
         <Tooltip />
 
